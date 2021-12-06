@@ -20,7 +20,7 @@ export default function ListInactive({
       dense
       divider
       sx={{
-        bgcolor: "primary.light",
+        bgcolor: "#adbecb",
         color: "black",
       }}
     >
