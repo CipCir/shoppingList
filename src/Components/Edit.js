@@ -115,9 +115,15 @@ export default function Edit({
         </FormControl>
       </DialogContent>
       <DialogActions>
-        <IconButton aria-label="delete" onClick={deleteProd}>
-          <DeleteIcon />
-        </IconButton>
+        <div style={{ flex: 1, justifyContent: "flex-start" }}>
+          <IconButton
+            aria-label="delete"
+            onClick={deleteProd}
+            sx={{ color: "#f44336" }}
+          >
+            <DeleteIcon />
+          </IconButton>
+        </div>
         <Button autoFocus onClick={closeEdit}>
           Cancel
         </Button>

@@ -198,36 +198,42 @@ function App() {
         })}
       </Box>
       <hr />
+      {/* innactive items */}
       <Box>
-        <List
-          sx={{
-            width: "100%",
-            maxWidth: 360,
-            bgcolor: "background.paper",
-            margin: "5px auto",
-            color: "white",
-          }}
-        >
-          {Object.keys(shopList).map((itm) => {
-            return (
-              <React.Fragment key={itm}>
-                {shopList[itm]
-                  .filter((itm) => itm.Status)
-                  .map((prod) => {
-                    return (
-                      <ListInactive
-                        key={prod.id}
-                        prod={prod}
-                        cat={itm}
-                        toggleStatus={handleToggle}
-                        makeSelected={selectEdit}
-                      />
-                    );
-                  })}
-              </React.Fragment>
-            );
-          })}
-        </List>
+        {Object.keys(shopList).map((itm) => {
+          return (
+            <div key={itm}>
+              {shopList[itm].filter((itm) => itm.Status).length > 0 && (
+                <>
+                  <div>{itm}</div>
+                  <List
+                    sx={{
+                      width: "100%",
+                      maxWidth: 360,
+                      bgcolor: "background.paper",
+                      margin: "5px auto",
+                      color: "white",
+                    }}
+                  >
+                    {shopList[itm]
+                      .filter((itm) => itm.Status)
+                      .map((prod) => {
+                        return (
+                          <ListInactive
+                            key={prod.id}
+                            prod={prod}
+                            cat={itm}
+                            toggleStatus={handleToggle}
+                            makeSelected={selectEdit}
+                          />
+                        );
+                      })}
+                  </List>
+                </>
+              )}
+            </div>
+          );
+        })}
       </Box>
       {showEdit && (
         <Edit
@@ -247,7 +253,7 @@ function App() {
           closeEdit={() => setShowNew(false)}
         />
       )}
-
+      {/* footer buttons */}
       <Fab
         color="primary"
         aria-label="add"
