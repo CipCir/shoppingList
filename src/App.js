@@ -26,6 +26,28 @@ import AddIcon from "@mui/icons-material/Add";
 import UndoIcon from "@mui/icons-material/Undo";
 
 const db = getDatabase();
+const catOrder = {
+  Farmacie: 1,
+  Hornbach: 2,
+  Bebe: 3,
+  Imbracaminte: 4,
+  Menaj: 5,
+  Piata: 6,
+  Vesela: 7,
+  Cosmetice: 8,
+  Congelate: 9,
+  Bio: 10,
+  Mezeluri: 11,
+  Frigider: 12,
+  Apa: 13,
+  Fainoase: 14,
+  Conserve: 15,
+  Snaks: 16,
+  Bauturi: 17,
+};
+function getCatOrder(a, b) {
+  return catOrder[a] - catOrder[b];
+}
 
 function App() {
   const [shopList, setShopList] = useState({});
@@ -161,79 +183,83 @@ function App() {
         </Box>
       )}
       <Box>
-        {Object.keys(shopList).map((itm) => {
-          return (
-            <div key={itm}>
-              {shopList[itm].filter((itm) => !itm.Status).length > 0 && (
-                <>
-                  <div>{itm}</div>
-                  <List
-                    sx={{
-                      width: "100%",
-                      maxWidth: 360,
-                      bgcolor: "background.paper",
-                      margin: "5px auto",
-                      color: "white",
-                    }}
-                  >
-                    {shopList[itm]
-                      .filter((itm) => !itm.Status)
-                      .map((prod) => {
-                        return (
-                          <ListActive
-                            key={prod.id}
-                            prod={prod}
-                            cat={itm}
-                            toggleStatus={handleToggle}
-                            toggleAvailable={handleAvailable}
-                            makeSelected={selectEdit}
-                          />
-                        );
-                      })}
-                  </List>
-                </>
-              )}
-            </div>
-          );
-        })}
+        {Object.keys(shopList)
+          .sort(getCatOrder)
+          .map((itm) => {
+            return (
+              <div key={itm}>
+                {shopList[itm].filter((itm) => !itm.Status).length > 0 && (
+                  <>
+                    <div>{itm}</div>
+                    <List
+                      sx={{
+                        width: "100%",
+                        maxWidth: 360,
+                        bgcolor: "background.paper",
+                        margin: "5px auto",
+                        color: "white",
+                      }}
+                    >
+                      {shopList[itm]
+                        .filter((itm) => !itm.Status)
+                        .map((prod) => {
+                          return (
+                            <ListActive
+                              key={prod.id}
+                              prod={prod}
+                              cat={itm}
+                              toggleStatus={handleToggle}
+                              toggleAvailable={handleAvailable}
+                              makeSelected={selectEdit}
+                            />
+                          );
+                        })}
+                    </List>
+                  </>
+                )}
+              </div>
+            );
+          })}
       </Box>
       <hr />
       {/* innactive items */}
       <Box>
-        {Object.keys(shopList).map((itm) => {
-          return (
-            <div key={itm}>
-              {shopList[itm].filter((itm) => itm.Status).length > 0 && (
-                <>
-                  <div>{itm}</div>
-                  <List
-                    sx={{
-                      width: "100%",
-                      maxWidth: 360,
-                      bgcolor: "background.paper",
-                      margin: "5px auto",
-                      color: "white",
-                    }}
-                  >
-                    {shopList[itm]
-                      .filter((itm) => itm.Status)
-                      .map((prod) => {
-                        return (
-                          <ListInactive
-                            key={prod.id}
-                            prod={prod}
-                            cat={itm}
-                            toggleStatus={handleToggle}
-                            makeSelected={selectEdit}
-                          />
-                        );
-                      })}
-                  </List>
-                </>
-              )}
-            </div>
-          );
-        })}
+        {Object.keys(shopList)
+          .sort(getCatOrder)
+          .map((itm) => {
+            return (
+              <div key={itm}>
+                {shopList[itm].filter((itm) => itm.Status).length > 0 && (
+                  <>
+                    <div>{itm}</div>
+                    <List
+                      sx={{
+                        width: "100%",
+                        maxWidth: 360,
+                        bgcolor: "background.paper",
+                        margin: "5px auto",
+                        color: "white",
+                      }}
+                    >
+                      {shopList[itm]
+                        .filter((itm) => itm.Status)
+                        .map((prod) => {
+                          return (
+                            <ListInactive
+                              key={prod.id}
+                              prod={prod}
+                              cat={itm}
+                              toggleStatus={handleToggle}
+                              makeSelected={selectEdit}
+                            />
+                          );
+                        })}
+                    </List>
+                  </>
+                )}
+              </div>
+            );
+          })}
       </Box>
       {showEdit && (
         <Edit
