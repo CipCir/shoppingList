@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 
-import "./App.css";
-import "./myFirebase";
+import './App.css';
+import './myFirebase';
 import {
   getDatabase,
   ref,
@@ -10,20 +10,20 @@ import {
   remove,
   set,
   push,
-} from "firebase/database";
+} from 'firebase/database';
 
-import List from "@mui/material/List";
-import Box from "@mui/material/Box";
-import Container from "@mui/material/Container";
-import ListActive from "./Components/ListActive";
-import ListInactive from "./Components/ListInactive";
-import Edit from "./Components/Edit";
-import AddNew from "./Components/AddNew";
+import List from '@mui/material/List';
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
+import ListActive from './Components/ListActive';
+import ListInactive from './Components/ListInactive';
+import Edit from './Components/Edit';
+import AddNew from './Components/AddNew';
 
-import Alert from "@mui/material/Alert";
-import Fab from "@mui/material/Fab";
-import AddIcon from "@mui/icons-material/Add";
-import UndoIcon from "@mui/icons-material/Undo";
+import Alert from '@mui/material/Alert';
+import Fab from '@mui/material/Fab';
+import AddIcon from '@mui/icons-material/Add';
+import UndoIcon from '@mui/icons-material/Undo';
 
 const db = getDatabase();
 const catOrder = {
@@ -32,10 +32,10 @@ const catOrder = {
   Bebe: 3,
   Imbracaminte: 4,
   Menaj: 5,
-  Piata: 6,
-  Vesela: 7,
-  Cosmetice: 8,
-  Congelate: 9,
+  Vesela: 6,
+  Cosmetice: 7,
+  Congelate: 8,
+  Piata: 9,
   Bio: 10,
   Mezeluri: 11,
   Frigider: 12,
@@ -63,7 +63,7 @@ function App() {
   const [activeProd, setActiveProd] = useState([]);
 
   useEffect(() => {
-    const reference = ref(db, "Categs/");
+    const reference = ref(db, 'Categs/');
 
     onValue(reference, (snapshot) => {
       //resets
@@ -98,7 +98,7 @@ function App() {
   }, []);
 
   function updateDB(cat, id, payload) {
-    const reference = ref(db, "Categs/" + cat + "/" + id);
+    const reference = ref(db, 'Categs/' + cat + '/' + id);
     update(reference, payload);
 
     const undoVal = {};
@@ -116,7 +116,7 @@ function App() {
     }
     const lastAction = updLog[updLog.length - 1];
 
-    const reference = ref(db, "Categs/" + lastAction.cat + "/" + lastAction.id);
+    const reference = ref(db, 'Categs/' + lastAction.cat + '/' + lastAction.id);
     update(reference, { ...lastAction.undo });
     setUpdLog((oldVal) => {
       return [...oldVal.slice(0, oldVal.length - 1)];
@@ -130,17 +130,17 @@ function App() {
     updateDB(cat, id, { Status: !status });
   };
 
-  const handleSaveEdit = ({ Nume, Description = "", Q, Cat }) => {
+  const handleSaveEdit = ({ Nume, Description = '', Q, Cat }) => {
     //edit existing category
     if (Cat === detailsCat) {
-      const reference = ref(db, "Categs/" + Cat + "/" + detailsProd["id"]);
+      const reference = ref(db, 'Categs/' + Cat + '/' + detailsProd['id']);
       update(reference, { Nume, Description, Q });
     } else {
       // move to new category
       const updatedProd = { ...detailsProd, Nume, Description, Q };
-      remove(ref(db, "Categs/" + detailsCat + "/" + detailsProd["id"])).then(
+      remove(ref(db, 'Categs/' + detailsCat + '/' + detailsProd['id'])).then(
         () => {
-          set(ref(db, "Categs/" + Cat + "/" + detailsProd["id"]), {
+          set(ref(db, 'Categs/' + Cat + '/' + detailsProd['id']), {
             ...updatedProd,
           }).then(() => {
             setDetailsProd({});
@@ -153,7 +153,7 @@ function App() {
   };
 
   const handleDelete = () => {
-    remove(ref(db, "Categs/" + detailsCat + "/" + detailsProd["id"]));
+    remove(ref(db, 'Categs/' + detailsCat + '/' + detailsProd['id']));
     setShowEdit(false);
   };
 
@@ -166,17 +166,17 @@ function App() {
     const { Cat, Id, reUse, ...fields } = pay;
 
     if (reUse) {
-      update(ref(db, "Categs/" + Cat + "/" + Id), {
+      update(ref(db, 'Categs/' + Cat + '/' + Id), {
         ...fields,
         Status: false,
         isAvailable: true,
       });
     } else {
-      push(ref(db, "Categs/" + Cat), fields);
+      push(ref(db, 'Categs/' + Cat), fields);
     }
   };
   return (
-    <Container maxWidth="sm" sx={{ marginTop: "5px" }}>
+    <Container maxWidth="sm" sx={{ marginTop: '5px' }}>
       {activeProd.length === 0 && (
         <Box>
           <Alert severity="success">Ai luat tot !!!</Alert>
@@ -193,11 +193,11 @@ function App() {
                     <div>{itm}</div>
                     <List
                       sx={{
-                        width: "100%",
+                        width: '100%',
                         maxWidth: 360,
-                        bgcolor: "background.paper",
-                        margin: "5px auto",
-                        color: "white",
+                        bgcolor: 'background.paper',
+                        margin: '5px auto',
+                        color: 'white',
                       }}
                     >
                       {shopList[itm]
@@ -234,11 +234,11 @@ function App() {
                     <div>{itm}</div>
                     <List
                       sx={{
-                        width: "100%",
+                        width: '100%',
                         maxWidth: 360,
-                        bgcolor: "background.paper",
-                        margin: "5px auto",
-                        color: "white",
+                        bgcolor: 'background.paper',
+                        margin: '5px auto',
+                        color: 'white',
                       }}
                     >
                       {shopList[itm]
@@ -284,7 +284,7 @@ function App() {
         color="primary"
         aria-label="add"
         size="small"
-        sx={{ position: "fixed", bottom: 5, right: 5 }}
+        sx={{ position: 'fixed', bottom: 5, right: 5 }}
         elevation={3}
         onClick={() => setShowNew(true)}
       >
@@ -295,11 +295,11 @@ function App() {
         color="secondary"
         size="small"
         sx={{
-          position: "fixed",
+          position: 'fixed',
           bottom: 5,
           left: 5,
 
-          backgroundColor: "Teal",
+          backgroundColor: 'Teal',
         }}
         elevation={3}
         onClick={undoAction}
